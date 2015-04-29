@@ -27,6 +27,8 @@ if len(sys.argv) <= 2:
 ngrams = int(sys.argv[1])
 text_dir = sys.argv[2]
 
+only = sys.argv[3:]
+print('Only calculating for: ', only)
 try:
     files = os.listdir(text_dir)
 except OSError:
@@ -39,6 +41,8 @@ file_dict = defaultdict(dict)
 for f in files:
     try:
         subject, wiki, _ = f.split('_')
+        if only and subject not in only:
+            continue
         file_dict[subject][wiki] = f
     except ValueError:
         print_help_and_exit('Text directory does not contain valid filenames')
@@ -75,10 +79,10 @@ for subject in file_dict:
     td_df['sm_tf'] = td_df.term.apply(lambda x: sm_tf[x])
 
     try:
-        os.mkdir('term-diffs/ngrams-{}'.format(ngrams))
+        os.mkdir('data/term-diffs/ngrams-{}'.format(ngrams))
     except OSError:
         pass
 
-    td_df.to_csv('term-diffs/ngrams-{}/{}_td.csv'.format(ngrams, subject),
+    td_df.to_csv('data/term-diffs/ngrams-{}/{}_td.csv'.format(ngrams, subject),
             index=False, encoding='utf8')
 
