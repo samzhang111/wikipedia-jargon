@@ -1,10 +1,10 @@
 from __future__ import print_function
 import requests
-simple_base = "http://simple.wikipedia.org/w/api.php"
-en_base = "http://en.wikipedia.org/w/api.php"
+simple_base = u"https://simple.wikipedia.org/w/api.php"
+en_base = u"https://en.wikipedia.org/w/api.php"
 
-list_endpoint = "?format=json&action=query&list=categorymembers&cmtitle={cat}&continue=-||&cmcontinue={cont}"
-page_endpoint = "?action=query&format=json&redirects&prop=revisions&rvprop=content&titles={titles}"
+list_endpoint = u"?format=json&action=query&list=categorymembers&cmtitle={cat}&continue=-||&cmcontinue={cont}"
+page_endpoint = u"?action=query&format=json&redirects&prop=revisions&rvprop=content&titles={titles}"
 
 visited_categories = set()
 
@@ -68,7 +68,7 @@ def page_content(pages, wiki_base=simple_base):
     # GET requests have a max length.
     for i in range(0, len(pages), 30):
         print(u'Chunk {}/{}...: {}'.format(i, len(pages), pages[i].decode('utf8')))
-        chunk = '|'.join(pages[i:min(i+30, len(pages))])
+        chunk = '|'.join(pages[i:min(i+30, len(pages))]).decode('utf-8', 'ignore')
 
         rawresp = requests.post(wiki_base + page_endpoint.format(titles=chunk))
 

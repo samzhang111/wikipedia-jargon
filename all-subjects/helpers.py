@@ -1,13 +1,14 @@
 import nltk
 from collections import defaultdict
 
-stopwords = set(nltk.corpus.stopwords.words('english'))
 
-def text_dict_to_term_dict(d, ngrams=1):
+def text_dict_to_term_dict(d, remove_stopwords=True, ngrams=1):
     '''Transform the text document dictionary to a term document matrix
     by tokenizing, lemmatizing, lowercasing, and picking only lemmas
     that are all alphabetical. '''
     lemmatizer = nltk.WordNetLemmatizer()
+    stopwords = set(nltk.corpus.stopwords.words('english'))
+    stopword_lemmas = set(map(lemmatizer.lemmatize, stopwords))
     term_matrix = defaultdict(int)
     all_counts = 0
     for title in d:
@@ -25,8 +26,12 @@ def text_dict_to_term_dict(d, ngrams=1):
                     continue
 
                 # Remove stopwords if ngrams > 1
-                if ngrams > 1 and any([x in stopwords for x in lem]):
-                    continue
+                if remove_stopwords:
+                    if ngrams > 1 and any([x in stopwords for x in lem]):
+                        continue
+
+                    if lem[0] in stopword_lemmas:
+                        continue
 
                 lemstr = ' '.join(lem)
 
