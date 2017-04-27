@@ -16,6 +16,8 @@ The pipeline goes:
 
 - `make_tf_differences.py [n-grams] [text directory]` (where n-gram refers to 1 for unigrams, 2 for bigrams, etc)
 
+- `make_tables.py [term-diffs-dir]/*`
+
 The categories that I used were:
 
 * Anthropology
@@ -43,4 +45,6 @@ The included data files are
 - `*.p` --> pickled version of cleaned up, dictionary-fied content of the above
 - `term_differences.csv` --> output, the actual differences in term frequencies
 
-Warning: I wrote this code in 2015, back when I was a terrible human being. I didn't quite have the knack for structuring projects back then, as you can see by the weirdly named files in `all-subjects` (which itself is named in a way that makes it difficult to import).
+### Warning
+
+I wrote this code in 2015. Since then, I think I've gotten a little better at structuring these types of exploratory projects :) (and everything is Python 3 now!). I touched it up so I could finally publish a blog post about this: https://sam.zhang.fyi/projects/2017-04-25-wikipedia-jargon/.
